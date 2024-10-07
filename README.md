@@ -235,8 +235,6 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 
     -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos es cero.
 
-
-
     -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la lista, operación constante gracias a la implementación de la lista.
 
     -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos es cero.
