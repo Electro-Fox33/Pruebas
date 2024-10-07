@@ -1,5 +1,5 @@
 <div align="right">
-<img width="32px" src="algo2.svg">
+<img width="32px" src="img/algo2.svg">
 </div>
 
 # TDA LISTA
@@ -66,9 +66,13 @@ struct lista {
 };
 ```
 La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder agregar elementos al final en O(1) decidí mantener un puntero al ultimo nodo de la lista.
-El uso de void *dato me permite almacenar caulquiercosa en la lista. En esta implementación, se almacenan pokemones.
-Otras dos estructuras utilizadas en el TP son **archivo_csv** e **iterador_lista**.
+El uso de void *dato me permite almacenar caulquiercosa en la lista. En esta implementación, se almacenan pokemones. Como se muetra en la imagen:
 
+<div align="center">
+<img width="70%" src="img/listaTresPokemones.jpg">
+</div>
+
+Otras dos estructuras utilizadas en el TP son **archivo_csv** e **iterador_lista**.
 En resumen, la interacción de las estructuras a lo largo del trabajo es la siguiente:
 
     -> La Lista actúa como contenedor principal, almacenando punteros a estructuras pokemon.
@@ -84,8 +88,21 @@ En resumen, la interacción de las estructuras a lo largo del trabajo es la sigu
 
 En el siguiente gráfico se muestra el flujo de memoria durante el programa
 <div align="center">
-<img width="70%" src="flujoTpLista.jpg">
+<img width="70%" src="img/flujoTpLista.jpg">
 </div>
+
+### ACLARACION EXTRA SOBRE IMPLEMENTACIÓN
+En la implementación de **lista_agregar_elemento**, se acordó en clase que si se pasa una posición mayor que la longitud actual de la lista, no se guardará el elemento. Esto se refleja en el código de la siguiente manera:
+
+```c
+bool lista_agregar_elemento(Lista *lista, size_t posicion, void *cosa)
+{
+    if (!lista || posicion > lista_cantidad_elementos(lista)) {
+        return false;
+    }
+    //resto de la función
+}
+```
 
 ---
 
@@ -93,7 +110,7 @@ En el siguiente gráfico se muestra el flujo de memoria durante el programa
 
 ### TDA Lista
 <div align="center">
-<img width="70%" src="lista.jpg">
+<img width="70%" src="img/lista.jpg">
 </div>
 Una lista es una estructura de datos que organiza elementos en una secuencia ordenada, permitiendo el acceso a cualquier posición dentro de ella.
 Su conjunto mínimo de operaciones incluye:
@@ -118,7 +135,7 @@ Tiene algunas variantes de implementación, entre ellas:
 
 ### TDA Pila
 <div align="center">
-<img width="70%" src="pila.jpg">
+<img width="70%" src="img/pila.jpg">
 </div>
 
 Una pila ('stack') es una colección ordenada de elementos en la que las operaciones de inserción y eliminación solo se realizan en un extremo (tope). Sigue el principio LIFO (Last In, First Out): el último elemento que se apila es el primero en desapilarse. Su conjunto mínimo de operaciones incluye:
@@ -131,7 +148,7 @@ Una pila ('stack') es una colección ordenada de elementos en la que las operaci
 
 ### TDA Cola
 <div align="center">
-<img width="70%" src="cola.jpg">
+<img width="70%" src="img/cola.jpg">
 </div>
 
 Una cola ('queue') es una estructura ordenada de datos donde las operaciones de inserción y eliminación se realizan en extremos opuestos. El inicio (frente) es donde se eliminan los elementos, y el final (rear) es donde se insertan. Sigue el principio FIFO (First In, First Out): el primer elemento en entrar es el primero en salir. Su conjunto mínimo de operaciones incluye:
@@ -146,7 +163,7 @@ Una cola ('queue') es una estructura ordenada de datos donde las operaciones de 
 
 En la siguiente tabla se muestra una comparación de las complejidades para las operaciones de inserción, obtención y eliminación en diferentes implementaciones de listas:
 <div align="center">
-<img width="70%" src="tablaO().jpg">
+<img width="70%" src="img/tablaO().jpg">
 </div>
 
 1. **Operaciones al Inicio**
@@ -157,7 +174,7 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 
     -> Obtener
 
-    Para acceder al primer elemento, todas las estructuras poseen una complejidad de O(1). Esto es porque el primer elemento está directamente accesible en todas ellas.
+    Para acceder al primer elemento, todas las estructuras poseen una complejidad de O(1). Esto es porque el primer elemento es accesible en todas ellas.
 
     -> Eliminar
 
@@ -171,7 +188,7 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 
     -> Obtener
 
-    Obtener un elemento en una posición intermedia implica recorrer la lista, por lo tanto va O(n) para las listas enlazadas. 
+    Obtener un elemento en una posición intermedia implica recorrer la lista, por lo tanto es O(n) para las listas enlazadas. 
     En el vector dinámico, el acceso a cualquier índice es O(1).
 
     -> Eliminar
@@ -188,54 +205,49 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 
     -> Obtener 
 
-    Obtener el último elemento en una LSE puede ser O(n) o O(1), dependiendo de si se mantiene un puntero al final. La lista doblemente enlazada, al igual que el vector dinámico, permite el acceso directo al último elemento en O(1), lo que lo hace eficiente.
+    Obtener el último elemento en una LSE puede ser O(n) o O(1), dependiendo de si se mantiene un puntero al final. 
+    La lista doblemente enlazada, al igual que el vector dinámico, permite el acceso directo al último elemento en O(1).
 
     -> Eliminar
 
-    En la LSE, el tiempo depende de si se tiene o no la referencia al final de la lista. En caso de tenerlo, el tiempo de ejecución es constante, al igual que la LDE. 
+    En la LSE, la complejidad temporal es O(n). Al no mantener en nodo anterior es necesario recorrer la lista buscando el elemento que apunta al que quiero eliminar para poder actualizar el puntero al siguiente del eliminado. En LDE no tengo ese problema, por lo que la operación es O(1).
     En un vector dinámico, la operación también es O(1): solamente se actualiza el tamaño del vector.
 
 ### Explicación de la complejidad de mi implementación en pila.c y cola.c
 
 **OPERACIONES DE PILA (pila.c)**
+    -> pila_crear(): O(1), crea una lista vacía y la castea a pila.
 
-    -> pila_crear(): O(1), asigna memoria para la estructura de la pila y crea una lista vacía.
+    -> pila_destruir(Pila *pila): O(n), recorre todos los elementos de la pila para liberarlos.
 
-    -> pila_destruir(Pila *pila): O(n), recorre todos los elementos de la lista interna para liberarlos.
+    -> pila_destruir_todo(Pila *pila, void (*f)(void *)): O(n), recorre la pila mientras aplica una función a cada elemento.
 
-    -> pila_destruir_todo(Pila *pila, void (*f)(void *)): O(n), recorre la lista interna mientras aplica una función a cada elemento.
+    -> pila_cantidad(Pila *pila): O(1), retorna el valor almacenado en la pila.
 
-    -> pila_cantidad(Pila *pila): O(1), retorna el valor almacenado en la lista interna.
+    -> pila_tope(Pila *pila): O(1), accede al inicio de la pila (*primer_nodo).
 
-    -> pila_tope(Pila *pila): O(1), accede al último elemento de la lista, es una operación constante ya que tengo almacenado un puntero al nodo final de la lista interna.
+    -> pila_apilar(Pila *pila, void *cosa): O(1), agrega un elemento al inicio de la pila.
 
-    -> pila_apilar(Pila *pila, void *cosa): O(1), agrega un elemento al final de la lista, es una operación constante ya que la lista guarda un puntero a su final.
-
-    -> pila_desapilar(Pila *pila): O(1), elimina el último elemento de la lista (utilizando la direccion del ultimo nodo de la lista).
+    -> pila_desapilar(Pila *pila): O(1), elimina el primer elemento de la pila (utilizando la direccion del *primer_nodo de la lista).
 
     -> pila_esta_vacía(Pila *pila): O(1) verifica si la cantidad de elementos es cero. 
 
 
-
 **OPERACIONES DE COLA (cola.c)**
 
-    -> cola_crear(): O(1), asigna memoria para la estructura de la cola y crea una lista vacía.
+    -> cola_crear(): O(1), crea una lista vacía y la castea a cola.
 
-    -> cola_destruir(Cola *cola): O(n), recorre todos los elementos de la lista interna para liberarlos.
+    -> cola_destruir(Cola *cola): O(n), recorre todos los elementos de la cola para liberarlos.
 
-    -> cola_destruir_todo(Cola *cola, void (*f)(void *)): O(n), recorre la lista interna y va aplicando una función a cada elemento.
+    -> cola_destruir_todo(Cola *cola, void (*f)(void *)): O(n), recorre la cola y va aplicando una función a cada elemento.
 
-    -> cola_cantidad(Cola *cola): O(1), retorna el valor almacenado en la lista interna.
+    -> cola_cantidad(Cola *cola): O(1), retorna el valor almacenado en la cola.
 
-    -> cola_frente(Cola *cola): O(1) accede al primer elemento de la lista, como guardamos la direccion en un puntero, es constante.
+    -> cola_frente(Cola *cola): O(1) accede al primer elemento de cola, como guardamos la direccion en un puntero (*primer_nodo), es constante.
 
-    -> cola_encolar(Cola *cola, void *cosa): O(1), agrega un elemento al final de la lista, teniendo un puntero al ultimo elemento de la lista interna, es constante.
+    -> cola_encolar(Cola *cola, void *cosa): O(1), agrega un elemento al final de la lista. Teniendo un puntero al ultimo elemento de la cola, es constante.
 
-    -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la lista, operación constante gracias a la implementación de la lista.
-
-    -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos es cero.
-
-    -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la lista, operación constante gracias a la implementación de la lista.
+    -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la cola.
 
     -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos es cero.
 
