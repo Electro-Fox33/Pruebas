@@ -2,130 +2,177 @@
 <img width="32px" src="img/algo2.svg">
 </div>
 
-# TP1
+# TDA LISTA
 
-## Alumno: Laura Maciel - 111415 - lamaaciel@fi.uba.ar
+## Alumno: Laura Maciel - 111415 - lamaciel@fi.uba.ar
 
 - Para compilar:
 
 ```bash
-make tp1
+make tpLista
 ```
 
 - Para ejecutar:
 
 ```bash
-make tp1
+make tpLista
 ```
 
 - Para ejecutar con valgrind:
 ```bash
-make valgrind-tp1
+make valgrind-tpLista
 ```
 
 ---
 
-##  Funcionamiento del TP1.c
+##  Funcionamiento del TP Lista
 
-El programa implementa una Pokedex simple utilizando un archivo CSV como fuente de datos. El funcionamiento general del mismo se puede resumir en los siguientes pasos:
+El programa TP Lista gestiona Pokémon utilizando una lista enlazada. Funciona de la siguiente manera:
+1. Abre el archivo CSV proporcionado como argumento y lo lee línea por línea, creando un registro por cada línea parseada e incorporándolo a la Pokedex (lista enlazada).
+2. El usuario puede elegir entre dos opciones: buscar un Pokémon por nombre o mostrar todos los Pokémon. 
+    -> Al seleccionar buscar, se solicita un nombre y se realiza la búsqueda en la lista. 
+    -> Si se opta por mostrar, se imprime cada Pokémon de la lista.
+3. Finalmente, se libera la memoria utilizada por la lista y sus elementos.
 
-1. Verifica los argumentos de línea de comando.
-2. Abre el archivo CSV especificado.
-3. Crea una nueva Pokedex.
-4. Lee el archivo CSV línea por línea, parseando cada línea para crear un nuevo Pokémon.
-5. Agrega cada Pokémon a la Pokedex.
-6. Itera sobre la Pokedex para imprimir todos los Pokémon y contar los tipos.
-7. Libera la memoria y cierra los recursos.
+### ESTRUCTURAS UTILIZADAS
 
-### Análisis de Complejidad Temporal
+**Struct Pokemon**
 ```c
-parseoNombre, parseoTipo, parseoInt: O(1) - Operaciones simples de conversión.
-imprimirPokemon: O(1) - Imprime un Pokémon en tiempo constante.
-contarPokemonPorTipo: O(1) - Incrementa un contador basado en el tipo.
-main: O(n), donde n es el número de líneas en el archivo CSV.
-
-La lectura del archivo y la adición de pokemones a la Pokedex dominan la complejidad.
-Cada operación de agregar a la Pokedex es O(k), donde k es el número actual de pokemones, en el peor de los casos, resulta en una complejidad O(n^2) en main.
+struct pokemon {
+    char *nombre;
+    char tipo;
+    int fuerza;
+    int destreza;
+    int resistencia;
+};
 ```
+Esta estructura representa a un Pokémon individual. Posee un puntero a char para el nombre para permitir nombres de longitud variable, optimizando el uso de memoria.
 
-##### Nota relativamente importante sobre el tp:
-**En esta pokedex no se utiliza una estructura con indice estático y los pokemon pueden ser duplicados**
-
-### Manejo de Memoria
- -> Se asigna memoria dinámicamente para cada nombre de Pokémon.
- -> Se mantiene un array nombres_asignados para facilitar la liberación de memoria al final.
- -> Se utiliza realloc para expandir nombres_asignados cuando es necesario.
- -> Toda la memoria asignada se libera al final del programa.
-
-Incluír **EN TODOS LOS TPS** los diagramas relevantes al problema (mayormente diagramas de memoria para explicar las estructuras, pero se pueden utilizar otros diagramas si es necesario).
-
-### Digrama de memoria de TP1.c:
-Diagrama que muestra el estado durante la lectura y procesamiento del archivo CSV.
-
-<div align="center">
-<img width="70%" src="img/maxUsoTp1.png">
-</div>
-
-##  Funcionamiento de csv.c
-
-csv.c contiene funcionalidades para trabajar con archivos CSV. Sus principales funciones son:
-
-1. abrir_archivo_csv: Abre un archivo CSV y crea una estructura para manejarlo.
-2. leer_linea_csv: Lee una línea del archivo CSV, la divide en campos y aplica funciones de parseo a cada campo.
-3. cerrar_archivo_csv: Cierra el archivo CSV y libera la memoria asociada.
-
-### Análisis de Complejidad Temporal
+**Struct Lista y Nodos**
 ```c
-abrir_archivo_csv: O(1) - Operaciones de apertura de archivo y asignación de memoria.
+struct nodo {
+    void *dato;
+    struct nodo *prox_nodo;
+};
 
-leer_linea_csv: O(k), donde k es la longitud de la línea a leer. En esta funcion, la complejidad es dominada por dividir_string ya que debe recorrer toda la línea.
-
-cerrar_archivo_csv: O(1) - Operaciones de cierre de archivo y liberación de memoria.
+struct lista {
+    size_t largo_lista;
+    struct nodo *primer_nodo;
+    struct nodo *ultimo_nodo;
+};
 ```
-### Manejo de Memoria
- -> abrir_archivo_csv asigna memoria para la estructura archivo_csv.
- -> leer_linea_csv asigna memoria temporalmente para la línea leída y para la estructura Partes. Al final libera la memoria de linea_leida
- -> Toda la memoria asignada al archivo se libera  en cerrar_archivo_csv.
+La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder agregar elementos al final en O(1) decidí mantener un puntero al ultimo nodo de la lista.
+El uso de void *dato me permite almacenar caulquiercosa en la lista. En esta implementación, se almacenan pokemones.
+Otras dos estructuras utilizadas en el TP son **archivo_csv** e **iterador_lista**.
+En resumen, la interacción de las estructuras a lo largo del trabajo es la siguiente:
+    -> La Lista actúa como contenedor principal, almacenando punteros a estructuras pokemon.
+    -> Cada nodo de la Lista contiene un puntero a una estructura pokemon.
+    -> El iterador de la lista se utiliza para recorrer los nodos y acceder a las estructuras pokemon.
+    -> La estructura de archivo CSV se utiliza temporalmente durante la carga de datos para llenar la lista con estructuras pokemon.
 
-### Digrama de memoria de csv.c:
-Diagrama de estado de memoria al abrir_archivo_csv:
+### MANEJO DE MEMORIA
+
+En el siguiente gráfico se muestra el flujo de memoria durante el programa
 <div align="center">
-<img width="70%" src="img/abrirArchivoCsv.png">
+<img width="70%" src="img/flujoTpLista.jpg">
 </div>
 
-Diagrama de estado de memoria para leer_linea_csv:
+---
+
+## Respuestas a las preguntas teóricas
+
+### TDA Lista
 <div align="center">
-<img width="70%" src="img/leerLineaCsv.png">
+<img width="70%" src="img/lista.jpg">
+</div>
+Una lista es una estructura de datos que organiza elementos en una secuencia ordenada, permitiendo el acceso a cualquier posición dentro de ella.
+Su conjunto mínimo de operaciones incluye:
+    -> Insertar: Añadir un elemento en una posición específica.
+    -> Eliminar: Eliminar un elemento de una posición específica.
+    -> Acceder: Obtener un elemento por su posición.
+    -> Recorrer: Navegar secuencialmente por todos los elementos
+Tiene algunas variantes de implementación, entre ellas:
+    -> Lista enlazada: Los elementos se almacenan en nodos independientes, donde cada nodo contiene un valor. Dependiendo del número de referencias que mantiene cada nodo, se clasifican en:
+        -> Lista simplemente enlazada (LSE): Cada nodo tiene una única referencia al siguiente nodo en la secuencia.
+        -> Lista doblemente enlazada (LDE): Cada nodo tiene dos referencias. Una al nodo siguiente y otra al nodo anterior, permitiendo recorrer la lista en ambas direcciones.
+    -> Lista basada en Vector Dinámico: Los elementos se almacenan en un bloque continuo de memoria.
+
+### TDA Pila
+<div align="center">
+<img width="70%" src="img/pila.jpg">
+</div>
+Una pila ('stack') es una colección ordenada de elementos en la que las operaciones de inserción y eliminación solo se realizan en un extremo (tope). Sigue el principio LIFO (Last In, First Out): el último elemento que se apila es el primero en desapilarse. Su conjunto mínimo de operaciones incluye:
+    -> Apilar ('Push'): Inserta un elemento en el tope de la pila.
+    -> Desapilar ('Pop'): Elimina y devuelve el elemento en el tope.
+    -> Ver tope: Devuelve el elemento en el tope sin eliminarlo.
+
+### TDA Cola
+<div align="center">
+<img width="70%" src="img/cola.jpg">
+</div>
+Una cola ('queue') es una estructura ordenada de datos donde las operaciones de inserción y eliminación se realizan en extremos opuestos. El inicio (frente) es donde se eliminan los elementos, y el final (rear) es donde se insertan. Sigue el principio FIFO (First In, First Out): el primer elemento en entrar es el primero en salir. Su conjunto mínimo de operaciones incluye:
+    -> Encolar ('Enqueue'): Inserta un elemento en el final de la cola.
+    -> Desencolar ('Dequeue'): Elimina y devuelve el elemento del frente de la cola.
+    -> Ver frente ('Front'): Devuelve el elemento en el frente sin eliminarlo.
+
+### Explicacion de complejidades entre implementaciones de lista:
+
+En la siguiente tabla se muestra una comparación de las complejidades para las operaciones de inserción, obtención y eliminación en diferentes implementaciones de listas:
+<div align="center">
+<img width="70%" src="img/tablaO().jpg">
 </div>
 
-##  Funcionamiento de pokedex.c
+1. **Operaciones al Inicio**
+    -> Insertar
+En ambas listas enlazadas (LSE y LDE), la operación se puede realizar en tiempo constante O(1) ya que solo se necesita actualizar el puntero que señala al primer elemento. En la LDE, además, se actualiza el puntero anterior al antiguo primer elemento en tiempo constante. En un vector dinámico, esta operación requiere un tiempo O(n) debido al desplazamiento de todos los elementos una posición hacia la derecha para hacer espacio para el nuevo elemento.
 
-pokedex.c implementa la estructura de datos Pokedex y sus operaciones asociadas:
+    -> Obtener
+Para acceder al primer elemento, todas las estructuras poseen una complejidad de O(1). Esto es porque el primer elemento está directamente accesible en todas ellas.
 
-1. pokedex_crear: Crea una nueva Pokedex vacía.
-2. pokedex_agregar_pokemon: Agrega un nuevo Pokémon a la Pokedex, manteniendo el orden alfabético.
-3. pokedex_cantidad_pokemones: Devuelve el número de Pokémon en la Pokedex.
-4. pokedex_buscar_pokemon: Busca un Pokémon por nombre.
-5. pokedex_iterar_pokemones: Itera sobre todos los Pokémon en la Pokedex.
-6. pokedex_destruir: Libera toda la memoria asociada a la Pokedex.
+    -> Eliminar
+En las listas enlazadas es O(1), ya que solo se necesita actualizar el puntero que apunta al primer elemento. En ambas, se actualiza el puntero anterior al nuevo primero en tiempo constante. En un vector dinámico, eliminar el primer elemento requiere desplazar todos los elementos hacia atrás, resultando en una complejidad de O(n).
 
-### Análisis de Complejidad Temporal
-```c
-pokedex_crear: O(1) - Asignación de memoria simple.
-pokedex_agregar_pokemon: O(n), donde n es el número de Pokémon en la Pokedex.
-    En el peor caso, necesita desplazar todos los Pokémon para mantener el orden.
-pokedex_cantidad_pokemones: O(1) - Retorna un valor almacenado.
-pokedex_buscar_pokemon: O(n) - Búsqueda lineal en el array de Pokémon.
-pokedex_iterar_pokemones: O(n) - Itera sobre todos los Pokémon una vez.
-pokedex_destruir: O(n) - Libera la memoria de cada Pokémon y de la Pokedex.
-```
-### Manejo de Memoria
- -> pokedex_crear asigna memoria para la estructura Pokedex.
- -> pokedex_agregar_pokemon usa realloc para expandir el array de Pokémon y copiar_cadena para el nombre.
- -> pokedex_destruir libera la memoria de todos los nombres de Pokémon y de la estructura Pokedex.
+2. **Operaciones en el Medio**
+    -> Insertar
+Para insertar un elemento en el medio de las listas enlazadas se debe recorrer hasta la posición deseada, resultando en una complejidad de O(n). En el caso de la lista doblemente enlazada, puede ser un poco más eficiente si se inserta cerca del final, pero generalizado sigue siendo O(n). Para un vector dinámico, la complejidad es también O(n) debido a desplazar elementos y posiblemente redimensionar el vector.
 
- ### Digrama de memoria de pokedex.c:
-Estado de memoria luego de agregar un par de pokemones:
-<div align="center">
-<img width="70%" src="img/pokedexMem.png">
-</div>
+    -> Obtener
+Obtener un elemento en una posición intermedia implica recorrer la lista, por lo tanto va O(n) para las listas enlazadas. 
+En el vector dinámico, el acceso a cualquier índice es O(1).
+
+    -> Eliminar
+Eliminar un elemento en el medio de las listas enlazadas requiere recorrer hasta la posición de eliminación, resultando en O(n) en ambas. 
+En el vector dinámico, la complejidad también es O(n) debido al desplazamiento de elementos que se necesita después de la eliminación.
+
+
+3. **Operaciones al Final**
+    -> Insertar 
+La inserción al final de una LSE puede ser O(n) si se necesita recorrer toda la lista para llegar al último elemento, pero en caso de mantener un puntero al último elemento, se puede realizar en O(1). Por otro lado, en la LDE, se puede insertar directamente al final en O(1), ya que se tiene acceso al último elemento. En un vector dinámico, la inserción puede llegar a ser O(n) en situaciones donde el vector necesita redimensionarse.
+
+    -> Obtener 
+Obtener el último elemento en una LSE puede ser O(n) o O(1), dependiendo de si se mantiene un puntero al final. La lista doblemente enlazada, al igual que el vector dinámico, permite el acceso directo al último elemento en O(1), lo que lo hace eficiente.
+
+    -> Eliminar
+En la LSE, el tiempo depende de si se tiene o no la referencia al final de la lista. En caso de tenerlo, el tiempo de ejecución es constante, al igual que la LDE. 
+En un vector dinámico, la operación también es O(1): solamente se actualiza el tamaño del vector.
+
+### Explicación de la complejidad de mi implementación en pila.c y cola.c
+
+**OPERACIONES DE PILA (pila.c)**
+    -> pila_crear(): O(1), asigna memoria para la estructura de la pila y crea una lista vacía.
+    -> pila_destruir(Pila *pila): O(n), recorre todos los elementos de la lista interna para liberarlos.
+    -> pila_destruir_todo(Pila *pila, void (*f)(void *)): O(n), recorre la lista interna mientras aplica una función a cada elemento.
+    -> pila_cantidad(Pila *pila): O(1), retorna el valor almacenado en la lista interna.
+    -> pila_tope(Pila *pila): O(1), accede al último elemento de la lista, es una operación constante ya que tengo almacenado un puntero al nodo final de la lista interna.
+    -> pila_apilar(Pila *pila, void *cosa): O(1), agrega un elemento al final de la lista, es una operación constante ya que la lista guarda un puntero a su final.
+    -> pila_desapilar(Pila *pila): O(1), elimina el último elemento de la lista (utilizando la direccion del ultimo nodo de la lista).
+    -> pila_esta_vacía(Pila *pila): O(1) verifica si la cantidad de elementos es cero. 
+**OPERACIONES DE COLA (cola.c)**
+    -> cola_crear(): O(1), asigna memoria para la estructura de la cola y crea una lista vacía.
+    -> cola_destruir(Cola *cola): O(n), recorre todos los elementos de la lista interna para liberarlos.
+    -> cola_destruir_todo(Cola *cola, void (*f)(void *)): O(n), recorre la lista interna y va aplicando una función a cada elemento.
+    -> cola_cantidad(Cola *cola): O(1), retorna el valor almacenado en la lista interna.
+    -> cola_frente(Cola *cola): O(1) accede al primer elemento de la lista, como guardamos la direccion en un puntero, es constante.
+    -> cola_encolar(Cola *cola, void *cosa): O(1), agrega un elemento al final de la lista, teniendo un puntero al ultimo elemento de la lista interna, es constante.
+    -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la lista, operación constante gracias a la implementación de la lista.
+    -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos es cero.
