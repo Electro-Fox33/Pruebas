@@ -28,10 +28,14 @@ make valgrind-tpLista
 ##  Funcionamiento del TP Lista
 
 El programa TP Lista gestiona Pokémon utilizando una lista enlazada. Funciona de la siguiente manera:
+
 1. Abre el archivo CSV proporcionado como argumento y lo lee línea por línea, creando un registro por cada línea parseada e incorporándolo a la Pokedex (lista enlazada).
 2. El usuario puede elegir entre dos opciones: buscar un Pokémon por nombre o mostrar todos los Pokémon. 
+
     -> Al seleccionar buscar, se solicita un nombre y se realiza la búsqueda en la lista. 
+
     -> Si se opta por mostrar, se imprime cada Pokémon de la lista.
+
 3. Finalmente, se libera la memoria utilizada por la lista y sus elementos.
 
 ### ESTRUCTURAS UTILIZADAS
@@ -64,11 +68,17 @@ struct lista {
 La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder agregar elementos al final en O(1) decidí mantener un puntero al ultimo nodo de la lista.
 El uso de void *dato me permite almacenar caulquiercosa en la lista. En esta implementación, se almacenan pokemones.
 Otras dos estructuras utilizadas en el TP son **archivo_csv** e **iterador_lista**.
+
 En resumen, la interacción de las estructuras a lo largo del trabajo es la siguiente:
+
     -> La Lista actúa como contenedor principal, almacenando punteros a estructuras pokemon.
+
     -> Cada nodo de la Lista contiene un puntero a una estructura pokemon.
+
     -> El iterador de la lista se utiliza para recorrer los nodos y acceder a las estructuras pokemon.
+
     -> La estructura de archivo CSV se utiliza temporalmente durante la carga de datos para llenar la lista con estructuras pokemon.
+
 
 ### MANEJO DE MEMORIA
 
@@ -110,6 +120,7 @@ Tiene algunas variantes de implementación, entre ellas:
 <div align="center">
 <img width="70%" src="img/pila.jpg">
 </div>
+
 Una pila ('stack') es una colección ordenada de elementos en la que las operaciones de inserción y eliminación solo se realizan en un extremo (tope). Sigue el principio LIFO (Last In, First Out): el último elemento que se apila es el primero en desapilarse. Su conjunto mínimo de operaciones incluye:
 
     -> Apilar ('Push'): Inserta un elemento en el tope de la pila.
@@ -170,19 +181,24 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 
 
 3. **Operaciones al Final**
+
     -> Insertar 
-La inserción al final de una LSE puede ser O(n) si se necesita recorrer toda la lista para llegar al último elemento, pero en caso de mantener un puntero al último elemento, se puede realizar en O(1). Por otro lado, en la LDE, se puede insertar directamente al final en O(1), ya que se tiene acceso al último elemento. En un vector dinámico, la inserción puede llegar a ser O(n) en situaciones donde el vector necesita redimensionarse.
+
+    La inserción al final de una LSE puede ser O(n) si se necesita recorrer toda la lista para llegar al último elemento, pero en caso de mantener un puntero al último elemento, se puede realizar en O(1). Por otro lado, en la LDE, se puede insertar directamente al final en O(1), ya que se tiene acceso al último elemento. En un vector dinámico, la inserción puede llegar a ser O(n) en situaciones donde el vector necesita redimensionarse.
 
     -> Obtener 
-Obtener el último elemento en una LSE puede ser O(n) o O(1), dependiendo de si se mantiene un puntero al final. La lista doblemente enlazada, al igual que el vector dinámico, permite el acceso directo al último elemento en O(1), lo que lo hace eficiente.
+
+    Obtener el último elemento en una LSE puede ser O(n) o O(1), dependiendo de si se mantiene un puntero al final. La lista doblemente enlazada, al igual que el vector dinámico, permite el acceso directo al último elemento en O(1), lo que lo hace eficiente.
 
     -> Eliminar
-En la LSE, el tiempo depende de si se tiene o no la referencia al final de la lista. En caso de tenerlo, el tiempo de ejecución es constante, al igual que la LDE. 
-En un vector dinámico, la operación también es O(1): solamente se actualiza el tamaño del vector.
+
+    En la LSE, el tiempo depende de si se tiene o no la referencia al final de la lista. En caso de tenerlo, el tiempo de ejecución es constante, al igual que la LDE. 
+    En un vector dinámico, la operación también es O(1): solamente se actualiza el tamaño del vector.
 
 ### Explicación de la complejidad de mi implementación en pila.c y cola.c
 
 **OPERACIONES DE PILA (pila.c)**
+
     -> pila_crear(): O(1), asigna memoria para la estructura de la pila y crea una lista vacía.
 
     -> pila_destruir(Pila *pila): O(n), recorre todos los elementos de la lista interna para liberarlos.
@@ -202,6 +218,7 @@ En un vector dinámico, la operación también es O(1): solamente se actualiza e
 
 
 **OPERACIONES DE COLA (cola.c)**
+
     -> cola_crear(): O(1), asigna memoria para la estructura de la cola y crea una lista vacía.
 
     -> cola_destruir(Cola *cola): O(n), recorre todos los elementos de la lista interna para liberarlos.
@@ -213,6 +230,12 @@ En un vector dinámico, la operación también es O(1): solamente se actualiza e
     -> cola_frente(Cola *cola): O(1) accede al primer elemento de la lista, como guardamos la direccion en un puntero, es constante.
 
     -> cola_encolar(Cola *cola, void *cosa): O(1), agrega un elemento al final de la lista, teniendo un puntero al ultimo elemento de la lista interna, es constante.
+
+    -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la lista, operación constante gracias a la implementación de la lista.
+
+    -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos es cero.
+
+
 
     -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la lista, operación constante gracias a la implementación de la lista.
 
