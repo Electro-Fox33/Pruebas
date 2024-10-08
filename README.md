@@ -66,7 +66,7 @@ struct lista {
 };
 ```
 La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder agregar elementos al final en O(1) decidí mantener un puntero al ultimo nodo de la lista.
-El uso de void *dato me permite almacenar caulquiercosa en la lista. En esta implementación, se almacenan pokemones. Como se muetra en la imagen:
+El uso de void *dato me permite almacenar cualquiercosa en la lista. En esta implementación, se almacenan pokemones. Como se muetra en la imagen:
 
 <div align="center">
 <img width="70%" src="img/listaTresPokemones.jpg">
