@@ -69,7 +69,7 @@ La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder agr
 El uso de void *dato me permite almacenar cualquiercosa en la lista. En esta implementación, se almacenan pokemones. Como se muetra en la imagen:
 
 <div align="center">
-<img width="70%" src="img/listaTresPokemones.jpg">
+<img width="70%" src="listaTresPokemones.jpg">
 </div>
 
 Otras dos estructuras utilizadas en el TP son **archivo_csv** e **iterador_lista**.
@@ -88,7 +88,7 @@ En resumen, la interacción de las estructuras a lo largo del trabajo es la sigu
 
 En el siguiente gráfico se muestra el flujo de memoria durante el programa
 <div align="center">
-<img width="70%" src="img/flujoTpLista.jpg">
+<img width="70%" src="flujoTpLista.jpg">
 </div>
 
 ### ACLARACION EXTRA SOBRE IMPLEMENTACIÓN
@@ -110,7 +110,7 @@ bool lista_agregar_elemento(Lista *lista, size_t posicion, void *cosa)
 
 ### TDA Lista
 <div align="center">
-<img width="70%" src="img/lista.jpg">
+<img width="70%" src="lista.jpg">
 </div>
 Una lista es una estructura de datos que organiza elementos en una secuencia ordenada, permitiendo el acceso a cualquier posición dentro de ella.
 Su conjunto mínimo de operaciones incluye:
@@ -135,7 +135,7 @@ Tiene algunas variantes de implementación, entre ellas:
 
 ### TDA Pila
 <div align="center">
-<img width="70%" src="img/pila.jpg">
+<img width="70%" src="pila.jpg">
 </div>
 
 Una pila ('stack') es una colección ordenada de elementos en la que las operaciones de inserción y eliminación solo se realizan en un extremo (tope). Sigue el principio LIFO (Last In, First Out): el último elemento que se apila es el primero en desapilarse. Su conjunto mínimo de operaciones incluye:
@@ -148,7 +148,7 @@ Una pila ('stack') es una colección ordenada de elementos en la que las operaci
 
 ### TDA Cola
 <div align="center">
-<img width="70%" src="img/cola.jpg">
+<img width="70%" src="cola.jpg">
 </div>
 
 Una cola ('queue') es una estructura ordenada de datos donde las operaciones de inserción y eliminación se realizan en extremos opuestos. El inicio (frente) es donde se eliminan los elementos, y el final (rear) es donde se insertan. Sigue el principio FIFO (First In, First Out): el primer elemento en entrar es el primero en salir. Su conjunto mínimo de operaciones incluye:
@@ -163,7 +163,7 @@ Una cola ('queue') es una estructura ordenada de datos donde las operaciones de 
 
 En la siguiente tabla se muestra una comparación de las complejidades para las operaciones de inserción, obtención y eliminación en diferentes implementaciones de listas:
 <div align="center">
-<img width="70%" src="img/tablaO().jpg">
+<img width="70%" src="tablaO().jpg">
 </div>
 
 1. **Operaciones al Inicio**
