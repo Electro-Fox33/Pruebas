@@ -27,16 +27,25 @@ make valgrind-tpLista
 
 ##  Funcionamiento del TP Lista
 
-El programa TP Lista gestiona Pokémon utilizando una lista enlazada. Funciona de la siguiente manera:
+El programa TP Lista funciona como una Pokedex: almacena y brinda informacion de pokemones utilizando una lista enlazada. Funciona de la siguiente manera:
 
 1. Abre el archivo CSV proporcionado como argumento y lo lee línea por línea, creando un registro por cada línea parseada e incorporándolo a la Pokedex (lista enlazada).
 2. El usuario puede elegir entre dos opciones: buscar un Pokémon por nombre o mostrar todos los Pokémon. 
 
-    -> Al seleccionar buscar, se solicita un nombre y se realiza la búsqueda en la lista. 
+    -> Al seleccionar la opcion '1', se solicita un nombre y se realiza la búsqueda del mismo en la lista. Si se encuentra el pokemon, se imprime. Caso contrario, se informa al usuario que el pokemon buscado no fue encontrado.
 
-    -> Si se opta por mostrar, se imprime cada Pokémon de la lista.
+    -> Si se opta por la opcion '2', se imprime cada Pokémon de la lista.
+
+    -> Si se ingresa otro caracter, se imprime un mensaje de 'opcion inválida'.
 
 3. Finalmente, se libera la memoria utilizada por la lista y sus elementos.
+
+### MANEJO DE MEMORIA
+
+En el siguiente gráfico se muestra el flujo de memoria durante el programa
+<div align="center">
+<img width="70%" src="img/flujoTpLista.jpg">
+</div>
 
 ### ESTRUCTURAS UTILIZADAS
 
@@ -65,31 +74,23 @@ struct lista {
     struct nodo *ultimo_nodo;
 };
 ```
-La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder agregar elementos al final en O(1) decidí mantener un puntero al ultimo nodo de la lista.
-El uso de void *dato me permite almacenar cualquiercosa en la lista. En esta implementación, se almacenan pokemones. Como se muetra en la imagen:
+La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder insertar y obtener elementos al final en tiempo constante O(1) se mantiene un puntero al ultimo nodo de la lista. El uso de void *dato permite al usuario almacenar cualquiercosa en la lista como dato. En esta implementación, se almacenan pokemones. La siguiente imagen muestra la estructura implementada con tres pokemones agregados:
 
 <div align="center">
-<img width="70%" src="listaTresPokemones.jpg">
+<img width="70%" src="img/listaTresPokemones.jpg">
 </div>
 
 Otras dos estructuras utilizadas en el TP son **archivo_csv** e **iterador_lista**.
 En resumen, la interacción de las estructuras a lo largo del trabajo es la siguiente:
 
-    -> La Lista actúa como contenedor principal, almacenando punteros a estructuras pokemon.
+    -> La lista simplemente enlazada actúa como contenedor principal.
 
-    -> Cada nodo de la Lista contiene un puntero a una estructura pokemon.
+    -> Cada nodo de la lista contiene un puntero a una estructura pokemon.
 
     -> El iterador de la lista se utiliza para recorrer los nodos y acceder a las estructuras pokemon.
 
-    -> La estructura de archivo CSV se utiliza temporalmente durante la carga de datos para llenar la lista con estructuras pokemon.
+    -> La estructura de archivo CSV se utiliza temporalmente durante la carga de datos para llenar la lista con las estructuras pokemon.
 
-
-### MANEJO DE MEMORIA
-
-En el siguiente gráfico se muestra el flujo de memoria durante el programa
-<div align="center">
-<img width="70%" src="flujoTpLista.jpg">
-</div>
 
 ### ACLARACION EXTRA SOBRE IMPLEMENTACIÓN
 En la implementación de **lista_agregar_elemento**, se acordó en clase que si se pasa una posición mayor que la longitud actual de la lista, no se guardará el elemento. Esto se refleja en el código de la siguiente manera:
@@ -110,7 +111,7 @@ bool lista_agregar_elemento(Lista *lista, size_t posicion, void *cosa)
 
 ### TDA Lista
 <div align="center">
-<img width="70%" src="lista.jpg">
+<img width="70%" src="img/lista.jpg">
 </div>
 Una lista es una estructura de datos que organiza elementos en una secuencia ordenada, permitiendo el acceso a cualquier posición dentro de ella.
 Su conjunto mínimo de operaciones incluye:
@@ -135,10 +136,10 @@ Tiene algunas variantes de implementación, entre ellas:
 
 ### TDA Pila
 <div align="center">
-<img width="70%" src="pila.jpg">
+<img width="70%" src="img/pila.jpg">
 </div>
 
-Una pila ('stack') es una colección ordenada de elementos en la que las operaciones de inserción y eliminación solo se realizan en un extremo (tope). Sigue el principio LIFO (Last In, First Out): el último elemento que se apila es el primero en desapilarse. Su conjunto mínimo de operaciones incluye:
+Una pila ('stack') es una colección ordenada de elementos en la que las operaciones de inserción y eliminación solo se realizan en un extremo ('tope'). Sigue el principio LIFO (Last In, First Out): el último elemento que se apila es el primero en desapilarse. Su conjunto mínimo de operaciones incluye:
 
     -> Apilar ('Push'): Inserta un elemento en el tope de la pila.
 
@@ -148,10 +149,10 @@ Una pila ('stack') es una colección ordenada de elementos en la que las operaci
 
 ### TDA Cola
 <div align="center">
-<img width="70%" src="cola.jpg">
+<img width="70%" src="img/cola.jpg">
 </div>
 
-Una cola ('queue') es una estructura ordenada de datos donde las operaciones de inserción y eliminación se realizan en extremos opuestos. El inicio (frente) es donde se eliminan los elementos, y el final (rear) es donde se insertan. Sigue el principio FIFO (First In, First Out): el primer elemento en entrar es el primero en salir. Su conjunto mínimo de operaciones incluye:
+Una cola ('queue') es una estructura ordenada de datos donde las operaciones de inserción y eliminación se realizan en extremos opuestos. El inicio (frente) es donde se eliminan los elementos, y el final ('rear') es donde se insertan. Sigue el principio FIFO (First In, First Out): el primer elemento en entrar es el primero en salir. Su conjunto mínimo de operaciones incluye:
 
     -> Encolar ('Enqueue'): Inserta un elemento en el final de la cola.
 
@@ -163,7 +164,7 @@ Una cola ('queue') es una estructura ordenada de datos donde las operaciones de 
 
 En la siguiente tabla se muestra una comparación de las complejidades para las operaciones de inserción, obtención y eliminación en diferentes implementaciones de listas:
 <div align="center">
-<img width="70%" src="tablaO().jpg">
+<img width="70%" src="img/tablaO().jpg">
 </div>
 
 1. **Operaciones al Inicio**
@@ -216,6 +217,7 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 ### Explicación de la complejidad de mi implementación en pila.c y cola.c
 
 **OPERACIONES DE PILA (pila.c)**
+
     -> pila_crear(): O(1), crea una lista vacía y la castea a pila.
 
     -> pila_destruir(Pila *pila): O(n), recorre todos los elementos de la pila para liberarlos.
