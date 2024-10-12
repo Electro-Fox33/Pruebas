@@ -44,7 +44,7 @@ El programa TP Lista funciona como una Pokedex: almacena y brinda informacion de
 
 En el siguiente gráfico se muestra el flujo de memoria durante el programa
 <div align="center">
-<img width="70%" src="flujoTpLista.jpg">
+<img width="70%" src="img/flujoTpLista.jpg">
 </div>
 
 ### ESTRUCTURAS UTILIZADAS
@@ -77,7 +77,7 @@ struct lista {
 La estructura utilizada fue una lista simplemente enlazada (LSE). Para poder insertar y obtener elementos al final en tiempo constante O(1) se mantiene un puntero al ultimo nodo de la lista. El uso de void *dato permite al usuario almacenar cualquiercosa en la lista como dato. En esta implementación, se almacenan pokemones. La siguiente imagen muestra la estructura implementada con tres pokemones agregados:
 
 <div align="center">
-<img width="70%" src="listaTresPokemones.jpg">
+<img width="70%" src="img/listaTresPokemones.jpg">
 </div>
 
 Otras dos estructuras utilizadas en el TP son **archivo_csv** e **iterador_lista**.
@@ -111,7 +111,7 @@ bool lista_agregar_elemento(Lista *lista, size_t posicion, void *cosa)
 
 ### TDA Lista
 <div align="center">
-<img width="70%" src="lista.jpg">
+<img width="70%" src="img/lista.jpg">
 </div>
 Una lista es una estructura de datos que organiza elementos en una secuencia ordenada, permitiendo el acceso a cualquier posición dentro de ella.
 Su conjunto mínimo de operaciones incluye:
@@ -149,10 +149,10 @@ Una pila ('stack') es una colección ordenada de elementos en la que las operaci
 
 ### TDA Cola
 <div align="center">
-<img width="70%" src="cola.jpg">
+<img width="70%" src="img/cola.jpg">
 </div>
 
-Una cola ('queue') es una estructura ordenada de datos donde las operaciones de inserción y eliminación se realizan en extremos opuestos. El inicio (frente) es donde se eliminan los elementos, y el final ('rear') es donde se insertan. Sigue el principio FIFO (First In, First Out): el primer elemento en entrar es el primero en salir. Su conjunto mínimo de operaciones incluye:
+Una cola ('queue') es una estructura ordenada de datos donde las operaciones de inserción y eliminación se realizan en extremos opuestos. El inicio ('front') es donde se eliminan los elementos, y el final ('rear') es donde se insertan. Sigue el principio FIFO (First In, First Out): el primer elemento en entrar es el primero en salir. Su conjunto mínimo de operaciones incluye:
 
     -> Encolar ('Enqueue'): Inserta un elemento en el final de la cola.
 
@@ -164,7 +164,7 @@ Una cola ('queue') es una estructura ordenada de datos donde las operaciones de 
 
 En la siguiente tabla se muestra una comparación de las complejidades para las operaciones de inserción, obtención y eliminación en diferentes implementaciones de listas:
 <div align="center">
-<img width="70%" src="tablaO().jpg">
+<img width="70%" src="img/tablaO().jpg">
 </div>
 
 1. **Operaciones al Inicio**
@@ -222,17 +222,17 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 
     -> pila_destruir(Pila *pila): O(n), recorre todos los elementos de la pila para liberarlos.
 
-    -> pila_destruir_todo(Pila *pila, void (*f)(void *)): O(n), recorre la pila mientras aplica una función a cada elemento.
+    -> pila_destruir_todo(Pila *pila, void (*f)(void *)): O(n), recorre la pila mientras aplica la función pasada por parámetro a cada elemento.
 
-    -> pila_cantidad(Pila *pila): O(1), retorna el valor almacenado en la pila.
+    -> pila_cantidad(Pila *pila): O(1), retorna la cantidad de elementos almacenados en la pila.
 
-    -> pila_tope(Pila *pila): O(1), accede al inicio de la pila (*primer_nodo).
+    -> pila_tope(Pila *pila): O(1), accede al inicio de la pila (Tomamos el elemento 0 como tope para que la complejidad temporal sea constante).
 
     -> pila_apilar(Pila *pila, void *cosa): O(1), agrega un elemento al inicio de la pila.
 
-    -> pila_desapilar(Pila *pila): O(1), elimina el primer elemento de la pila (utilizando la direccion del *primer_nodo de la lista).
+    -> pila_desapilar(Pila *pila): O(1), elimina el primer elemento de la pila (utilizando la direccion del elemento 0 de la pila).
 
-    -> pila_esta_vacía(Pila *pila): O(1) verifica si la cantidad de elementos es cero. 
+    -> pila_esta_vacía(Pila *pila): O(1) verifica si la cantidad de elementos almacenados en la pila es cero. 
 
 
 **OPERACIONES DE COLA (cola.c)**
@@ -241,15 +241,15 @@ En la siguiente tabla se muestra una comparación de las complejidades para las 
 
     -> cola_destruir(Cola *cola): O(n), recorre todos los elementos de la cola para liberarlos.
 
-    -> cola_destruir_todo(Cola *cola, void (*f)(void *)): O(n), recorre la cola y va aplicando una función a cada elemento.
+    -> cola_destruir_todo(Cola *cola, void (*f)(void *)): O(n), recorre la cola y va aplicando una función destructora pasada por parámetro a cada elemento.
 
-    -> cola_cantidad(Cola *cola): O(1), retorna el valor almacenado en la cola.
+    -> cola_cantidad(Cola *cola): O(1), retorna la cantidad de elementos almacenados en la cola.
 
-    -> cola_frente(Cola *cola): O(1) accede al primer elemento de cola, como guardamos la direccion en un puntero (*primer_nodo), es constante.
+    -> cola_frente(Cola *cola): O(1) accede al primer elemento de cola (elemento 0), como guardamos la direccion en un puntero (*primer_nodo), es constante.
 
     -> cola_encolar(Cola *cola, void *cosa): O(1), agrega un elemento al final de la lista. Teniendo un puntero al ultimo elemento de la cola, es constante.
 
-    -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la cola.
+    -> cola_desencolar(Cola *cola): O(1) elimina el primer elemento de la cola (utilizando la direccion del elemento 0 de la cola).
 
-    -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos es cero.
+    -> cola_esta_vacía(Cola *cola): O(1) verifica si la cantidad de elementos almacenados en la cola es cero.
 
