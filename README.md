@@ -126,7 +126,8 @@ Su conjunto mínimo de operaciones incluye:
 
 Tiene algunas variantes de implementación, entre ellas:
 
-    -> Lista enlazada: Los elementos se almacenan en nodos independientes, donde cada nodo contiene un valor. Dependiendo del número de referencias que mantiene cada nodo, se clasifican en:
+    -> Lista enlazada: Los elementos se almacenan en nodos independientes, donde cada nodo contiene un valor. 
+    Dependiendo del número de referencias que mantiene cada nodo, se      clasifican en:
 
         -> Lista simplemente enlazada (LSE): Cada nodo tiene una única referencia al siguiente nodo en la secuencia.
 
